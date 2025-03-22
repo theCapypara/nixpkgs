@@ -1,0 +1,74 @@
+For some reason, we cannot find GIRepository 2.0, even when it is on GI_TYPELIB_PATH:
+https://github.com/NixOS/nixpkgs/pull/386514#issuecomment-2727444698
+
+But it is not really needed, we can just add the directory we need to GI_TYPELIB_PATH.
+This no longer adds paths from LD_LIBRARY_PATH to GI_TYPELIB_PATH but that was probably wrong anyway.
+
+TODO: upstream once gitlab.freedesktop.org is up again
+
+diff --git a/src/libnm-client-impl/meson.build b/src/libnm-client-impl/meson.build
+index 3dd2338a82..e72b404d0c 100644
+--- a/src/libnm-client-impl/meson.build
++++ b/src/libnm-client-impl/meson.build
+@@ -204,10 +204,9 @@ if enable_introspection
+       output: 'nm-settings-docs-gir-' + name + '.xml',
+       command: [
+         'env',
+-        'GI_TYPELIB_PATH=' + gi_typelib_path,
++        'GI_TYPELIB_PATH=' + gi_typelib_path + (gi_typelib_path != '' ? ':' : '') + meson.current_build_dir(),
+         'LD_LIBRARY_PATH=' + ld_library_path,
+         gen_gir_cmd,
+-        '--lib-path', meson.current_build_dir(),
+         '--gir', libnm_gir[0],
+         '--output', '@OUTPUT@',
+         '--target', name
+diff --git a/tools/generate-docs-nm-settings-docs-gir.py b/tools/generate-docs-nm-settings-docs-gir.py
+index e438d87ad4..815de1b7e1 100755
+--- a/tools/generate-docs-nm-settings-docs-gir.py
++++ b/tools/generate-docs-nm-settings-docs-gir.py
+@@ -10,22 +10,6 @@ import os
+ import gi
+ import re
+ 
+-gi.require_version("GIRepository", "2.0")
+-from gi.repository import GIRepository
+-
+-try:
+-    libs = os.environ["LD_LIBRARY_PATH"].split(":")
+-    libs.reverse()
+-    for lib in libs:
+-        GIRepository.Repository.prepend_library_path(lib)
+-except AttributeError:
+-    # An old GI version, that has no prepend_library_path
+-    # It's alright, it probably interprets LD_LIBRARY_PATH
+-    # correctly.
+-    pass
+-except KeyError:
+-    pass
+-
+ gi.require_version("NM", "1.0")
+ from gi.repository import NM, GObject
+ 
+@@ -354,13 +338,6 @@ def main(gir_path_str, output_path_str, output_target):
+ 
+ if __name__ == "__main__":
+     parser = argparse.ArgumentParser()
+-    parser.add_argument(
+-        "-l",
+-        "--lib-path",
+-        metavar="PATH",
+-        action="append",
+-        help="path to scan for shared libraries",
+-    )
+     parser.add_argument(
+         "-g",
+         "--gir",
+@@ -384,8 +361,4 @@ if __name__ == "__main__":
+ 
+     args = parser.parse_args()
+ 
+-    if args.lib_path:
+-        for lib in args.lib_path:
+-            GIRepository.Repository.prepend_library_path(lib)
+-
+     main(args.gir, args.output, args.target)

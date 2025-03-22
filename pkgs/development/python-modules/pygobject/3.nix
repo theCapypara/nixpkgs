@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchurl,
+  fetchpatch,
   buildPythonPackage,
   pkg-config,
   glib,
@@ -18,7 +19,7 @@
 
 buildPythonPackage rec {
   pname = "pygobject";
-  version = "3.50.0";
+  version = "3.52.2";
 
   outputs = [
     "out"
@@ -30,9 +31,18 @@ buildPythonPackage rec {
   format = "other";
 
   src = fetchurl {
-    url = "mirror://gnome/sources/${pname}/${lib.versions.majorMinor version}/${pname}-${version}.tar.xz";
-    hash = "sha256-jYNudbWogdRX7hYiyuSjK826KKC6ViGTrbO7tHJHIhI=";
+    url = "mirror://gnome/sources/pygobject/${lib.versions.majorMinor version}/pygobject-${version}.tar.gz";
+    hash = "sha256-hp9C7nDc9t5QvOJnBy4sNc7n/NLjLqGvOjqZqIkBhQo=";
   };
+
+  patches = [ 
+    # Fix get_value error breaking gst-python
+    # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4301
+    (fetchpatch {
+      url = "https://gitlab.gnome.org/GNOME/pygobject/-/commit/cf88f6ecdd8d3510658cd38f8e8c7a8385f0a478.patch";
+      hash = "sha256-tjqgONiOBW+DtLecmZu3+p3XsXKOGnMeuNgdx/9aHBo=";
+    })
+  ];
 
   depsBuildBuild = [ pkg-config ];
 
@@ -63,7 +73,7 @@ buildPythonPackage rec {
   passthru = {
     updateScript = gnome.updateScript {
       packageName = pname;
-      attrPath = "python3.pkgs.${pname}3";
+      attrPath = "python3.pkgs.pygobject3";
       versionPolicy = "odd-unstable";
     };
   };

@@ -68,7 +68,7 @@ in
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "gtk4";
-  version = "4.16.12";
+  version = "4.17.6";
 
   outputs = [ "out" "dev" ] ++ lib.optionals x11Support [ "devdoc" ];
   outputBin = "dev";
@@ -80,7 +80,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   src = fetchurl {
     url = with finalAttrs; "mirror://gnome/sources/gtk/${lib.versions.majorMinor version}/gtk-${version}.tar.xz";
-    hash = "sha256-7zG9vW8ILEQBY0ogyFCwBQyb8lLvHgeXZO6VoqDEyVo=";
+    hash = "sha256-366boSY/hK+oOklNsu0UxzksZ4QLZzC/om63n94eE6E=";
   };
 
   patches = [
@@ -240,7 +240,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   # Wrap demos
   postFixup =  lib.optionalString (!stdenv.hostPlatform.isDarwin) ''
-    demos=(gtk4-demo gtk4-demo-application gtk4-icon-browser gtk4-widget-factory)
+    demos=(gtk4-demo gtk4-demo-application gtk4-widget-factory)
 
     for program in ''${demos[@]}; do
       wrapProgram $dev/bin/$program \

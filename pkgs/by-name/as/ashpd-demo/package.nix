@@ -17,22 +17,23 @@
   wayland,
   wrapGAppsHook4,
   desktop-file-utils,
+  nix-update-script,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "ashpd-demo";
-  version = "0.4.1";
+  version = "0.11.0";
 
   src = fetchFromGitHub {
     owner = "bilelmoussaoui";
     repo = "ashpd";
-    rev = "${finalAttrs.version}-demo";
-    hash = "sha256-fIyJEUcyTcjTbBycjuJb99wALQelMT7Zq6PHKcL2F80=";
+    tag = finalAttrs.version;
+    hash = "sha256-zWxkI5Cq+taIkJ27qsVMslcFr6EqfxstQm9YvvSj3so=";
   };
 
   cargoDeps = rustPlatform.fetchCargoVendor {
     src = "${finalAttrs.src}/ashpd-demo";
-    hash = "sha256-iluV24uSEHDcYi6pO2HNrKs4ShwFvZ/ryv8ioopaNMI=";
+    hash = "sha256-eGFz3wWXXLhDesVU9yqj/fAX46RN6FxHFqhKwvr4C24=";
   };
 
   nativeBuildInputs = [
@@ -62,6 +63,10 @@ stdenv.mkDerivation (finalAttrs: {
   postPatch = ''
     cd ashpd-demo
   '';
+
+  passthru = {
+    updateScript = nix-update-script { };
+  };
 
   meta = with lib; {
     description = "Tool for playing with XDG desktop portals";
