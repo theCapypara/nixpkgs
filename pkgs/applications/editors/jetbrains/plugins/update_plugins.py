@@ -240,7 +240,7 @@ def get_file_hashes(file_list: list[str], refetch_all: bool) -> dict[str, str]:
     return file_hashes
 
 
-def get_args() -> tuple[list[str], list[str], bool, bool, bool, list[str]]:
+def get_args() -> tuple[list[str], list[str], bool, bool, bool, list[str], bool]:
     parser = ArgumentParser(
         description="Add/remove/update entries in plugins.json",
         epilog="To update all plugins, run with no args.\n"
@@ -255,6 +255,8 @@ def get_args() -> tuple[list[str], list[str], bool, bool, bool, list[str]]:
                         help="suppress warnings about not being able to find compatible plugin versions")
     parser.add_argument("-w", "--with-build", action="append", default=[],
                         help="append [builds] to the list of builds to fetch plugin versions for")
+    parser.add_argument("-n", "--no-commit", action="store_true",
+                        help="do not commit the plugin updates")
     sub = parser.add_subparsers(dest="action")
     sub.add_parser("add").add_argument("ids", type=str, nargs="+", help="plugin(s) to add")
     sub.add_parser("remove").add_argument("ids", type=str, nargs="+", help="plugin(s) to remove")
@@ -268,7 +270,7 @@ def get_args() -> tuple[list[str], list[str], bool, bool, bool, list[str]]:
     elif args.action == "remove":
         remove = args.ids
 
-    return add, remove, args.refetch_all, args.list, args.quiet, args.with_build
+    return add, remove, args.refetch_all, args.list, args.quiet, args.with_build, args.no_commit
 
 
 def sort_ids(ids: list[str]) -> list[str]:
@@ -372,7 +374,7 @@ def write_result(to_write):
 
 
 def main():
-    add, remove, refetch_all, list_ids, quiet, extra_builds = get_args()
+    add, remove, refetch_all, list_ids, quiet, extra_builds, no_commit = get_args()
     result = {}
 
     print("Fetching plugin info")
@@ -391,10 +393,11 @@ def main():
 
     write_result(result)
 
-    # Commit the result
-    commitMessage = "jetbrains.plugins: update"
-    print("#### Committing changes... ####")
-    run(['git', 'commit', f'-m{commitMessage}', '--', f'{PLUGINS_FILE}'], check=True)
+    if not no_commit:
+        # Commit the result
+        commitMessage = "jetbrains.plugins: update"
+        print("#### Committing changes... ####")
+        run(['git', 'commit', f'-m{commitMessage}', '--', f'{PLUGINS_FILE}'], check=True)
 
 
 if __name__ == '__main__':

@@ -30,6 +30,7 @@ stdenvNoCC.mkDerivation {
   passthru.buildNumber = buildNumber;
   passthru.product = product;
   passthru.tests = args.passthru.tests;
+  passthru.updateScript = args.passthru.updateScript;
   meta = meta // {
     mainProgram = loname;
   };

@@ -237,9 +237,9 @@ let
     stripRoot = false;
   };
 
+  brokenPluginsJson = lib.importJSON ./broken_plugins.json;
   brokenPlugins = fetchurl {
-    url = "https://web.archive.org/web/20250509141038/https://downloads.marketplace.jetbrains.com/files/brokenPlugins.json";
-    hash = "sha256-FzYANZSTasCdVEu9jLF1+2PEH8SadUddaIaec5vhKH8=";
+    inherit (brokenPluginsJson) url hash;
   };
 
 in

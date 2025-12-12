@@ -10,6 +10,7 @@ from urllib.error import HTTPError
 import urllib.request
 import xmltodict
 from packaging import version
+from argparse import ArgumentParser
 
 updates_url = "https://www.jetbrains.com/updates/updates.xml"
 current_path = pathlib.Path(__file__).parent
@@ -18,6 +19,23 @@ fromVersions = {}
 toVersions = {}
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+
+def get_args() -> tuple[list[str]|None, bool, bool, bool]:
+    parser = ArgumentParser(
+        description="Update bin IDEs",
+        epilog="To update all IDEs, run with no args."
+    )
+    parser.add_argument("--no-commit", action="store_true",
+                        help="do not commit the IDE updates")
+    parser.add_argument("--no-plugin-updates", action="store_true",
+                        help="do not run the plugin updates")
+    parser.add_argument("--throw", action="store_true",
+                        help="exit with an error code if an IDE update failed")
+    parser.add_argument("ides", type=str, nargs="?", help="IDEs to update")
+    args = parser.parse_args()
+
+    return args.ides, args.no_commit, args.no_plugin_updates, args.throw
 
 
 def one_or_more(x):
@@ -72,13 +90,15 @@ def get_url(template, version_or_build_number, version_number):
     return None
 
 
-def update_product(name, product):
+def update_product(name, product, throw):
     update_channel = product["update-channel"]
     logging.info("Updating %s", name)
     channel = channels.get(update_channel)
     if channel is None:
         logging.error("Failed to find channel %s.", update_channel)
         logging.error("Check that the update-channel in %s matches the name in %s", versions_file_path, updates_url)
+        if throw:
+            raise Exception("Invalid update-channel")
     else:
         try:
             build = latest_build(channel)
@@ -108,20 +128,25 @@ def update_product(name, product):
                 logging.info("Already at the latest version %s with build number %s.", new_version, new_build_number)
         except Exception as e:
             logging.exception("Update failed:", exc_info=e)
+            if throw:
+                raise e
             logging.warning("Skipping %s due to the above error.", name)
             logging.warning("It may be out-of-date. Fix the error and rerun.")
 
 
-def update_products(products):
+def update_products(products, filter, throw):
     for name, product in products.items():
-        update_product(name, product)
+        if filter is None or name in filter:
+            update_product(name, product, throw)
 
+
+ides, no_commit, no_plugin_updates, throw = get_args()
 
 with open(versions_file_path, "r") as versions_file:
     versions = json.load(versions_file)
 
 for products in versions.values():
-    update_products(products)
+    update_products(products, ides, throw)
 
 with open(versions_file_path, "w") as versions_file:
     json.dump(versions, versions_file, indent=2)
@@ -142,10 +167,12 @@ else:
 for name in toVersions.keys():
     commitMessage += f"jetbrains.{name}: {fromVersions[name]} -> {toVersions[name]}\n"
 
-# Commit the result
-logging.info("#### Committing changes... ####")
-subprocess.run(['git', 'commit', f'-m{commitMessage}', '--', f'{versions_file_path}'], check=True)
+if not no_commit:
+    # Commit the result
+    logging.info("#### Committing changes... ####")
+    subprocess.run(['git', 'commit', f'-m{commitMessage}', '--', f'{versions_file_path}'], check=True)
 
-logging.info("#### Updating plugins ####")
-plugin_script = current_path.joinpath("../plugins/update_plugins.py").resolve()
-subprocess.call(plugin_script)
+if not no_plugin_updates:
+    logging.info("#### Updating plugins ####")
+    plugin_script = current_path.joinpath("../plugins/update_plugins.py").resolve()
+    subprocess.call(plugin_script)

@@ -116,6 +116,10 @@ let
       passthru.tests = extraTests // {
         plugins = callPackage ./plugins/tests.nix { ideName = pname; };
       };
+      passthru.updateScript = [
+        (if fromSource then ./update_src.sh else ./update_bin.sh)
+        pname
+      ];
       libdbm =
         if ideInfo."${pname}".meta.isOpenSource then
           communitySources."${pname}".libdbm

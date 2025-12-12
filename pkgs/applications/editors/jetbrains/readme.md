@@ -22,13 +22,17 @@ The jdk is in `pkgs/development/compilers/jetbrains-jdk`.
  - If binaries need patch or some other special treatment, add an entry to `plugins/specialPlugins.nix`
 
 ## How to update stuff:
+Updates are usually handled automatically via `passthru.updateScript` (rryan-tm). However you can also follow the update manually. 
+The source versions in particular sometimes can't be updated automatically due to required dependencies changing.
+
  - Run ./bin/update_bin.py, this will update binary IDEs and plugins, and automatically commit them
- - Source builds need a bit more effort, as they **aren't automated at the moment**:
+ - Source builds need a bit more effort:
    - Run ./source/update.py ./source/ides.json ./bin/versions.json. This will update the source version to the version of their corresponding binary packages.
    - Run these commands respectively:
      - `nix build .#jetbrains.idea-community-src.src.src && ./source/build_maven.py source/idea_maven_artefacts.json result/` for IDEA
      - `nix build .#jetbrains.pycharm-community-src.src.src && ./source/build_maven.py source/pycharm_maven_artefacts.json result/` for PyCharm
-   - Update `brokenPlugins` timestamp and hash (from https://web.archive.org/web/*/https://plugins.jetbrains.com/files/brokenPlugins.json)
+   - Run these commands:
+     - `./source/update_broken_plugins.py source/broken_plugins.json`
    - Do a test build
      - Notice that sometimes a newer Kotlin version is required to build from source, if build fails, first check the recommended Kotlin version in `.idea/kotlinc.xml` in the IDEA source root
      - Feel free to update the Kotlin version to a compatible one
@@ -36,6 +40,8 @@ The jdk is in `pkgs/development/compilers/jetbrains-jdk`.
    - Run ./plugins/update_plugins.py, this will update plugins and automatically commit them
    - make a PR/merge
    - If it fails, ping/message GenericNerdyUsername or the nixpkgs Jetbrains maintainer team
+
+See also `update_bin.sh` and `update_src.sh`, these are set as `updateScript`s.
 
 ## How to add an IDE:
  - Make dummy entries in `bin/versions.json` (make sure to set the version to something older than the real one)

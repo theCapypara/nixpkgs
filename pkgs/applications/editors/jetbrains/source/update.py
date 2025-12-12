@@ -1,11 +1,11 @@
 #!/usr/bin/env nix-shell
-# ! nix-shell -i python3 -p python3 python3.pkgs.xmltodict
+#! nix-shell -i python3 -p python3 python3.pkgs.xmltodict
 import os
 import subprocess
 import pprint
 from argparse import ArgumentParser
 from xmltodict import parse
-from json import dump, loads
+from json import dump, load, loads
 from sys import stdout
 
 def convert_hash_to_sri(base32: str) -> str:
@@ -80,58 +80,73 @@ def prefetch_android(variant: str, buildNumber: str) -> str:
     return convert_hash_to_sri(prefetch.stdout.strip())
 
 
-def get_args() -> (str, str):
+def get_args() -> (str, str, list[str]|None):
     parser = ArgumentParser(
-        description="Updates the IDEA / PyCharm source build infomations"
+        description="Updates the IDEA / PyCharm source build infomations",
+        epilog="To update all IDEs, run without --ides argument."
     )
+    parser.add_argument("--ides", type=str, nargs="+", help="IDEs to update")
     parser.add_argument("out", help="File to output json to")
     parser.add_argument("path", help="Path to the bin/versions.json file")
     args = parser.parse_args()
-    return args.path, args.out
+    return args.path, args.out, args.ides
 
 
 def main():
-    versions_path, out = get_args()
+    versions_path, out, ides = get_args()
+    if not ides:
+        ides = ["idea-community", "pycharm-community"]
+
     versions = loads(open(versions_path).read())
     idea_data = versions['x86_64-linux']['idea-community']
     pycharm_data = versions['x86_64-linux']['pycharm-community']
 
-    result = { 'idea-community': {}, 'pycharm-community': {} }
-    result['idea-community']['version'] = idea_data['version']
-    result['idea-community']['buildNumber'] = idea_data['build_number']
-    result['idea-community']['buildType'] = 'idea'
-    result['pycharm-community']['version'] = pycharm_data['version']
-    result['pycharm-community']['buildNumber'] = pycharm_data['build_number']
-    result['pycharm-community']['buildType'] = 'pycharm'
-    print('Fetching IDEA info...')
-    result['idea-community']['ideaHash'], ideaOutPath = prefetch_intellij_community('idea', result['idea-community']['buildNumber'])
-    result['idea-community']['androidHash'] = prefetch_android('idea', result['idea-community']['buildNumber'])
-    result['idea-community']['jpsHash'] = ''
-    result['idea-community']['restarterHash'] = ''
-    result['idea-community']['mvnDeps'] = 'idea_maven_artefacts.json'
-    result['idea-community']['repositories'] = jar_repositories(ideaOutPath)
-    result['idea-community']['kotlin-jps-plugin'] = {}
-    result['idea-community']['kotlin-jps-plugin']['version'], result['idea-community']['kotlin-jps-plugin']['hash'] = kotlin_jps_plugin_info(ideaOutPath)
-    kotlinc_version = requested_kotlinc_version(ideaOutPath)
-    print(f"* Prefetched IDEA Community requested Kotlin compiler {kotlinc_version}")
-    print('Fetching PyCharm info...')
-    result['pycharm-community']['ideaHash'], pycharmOutPath = prefetch_intellij_community('pycharm', result['pycharm-community']['buildNumber'])
-    result['pycharm-community']['androidHash'] = prefetch_android('pycharm', result['pycharm-community']['buildNumber'])
-    result['pycharm-community']['jpsHash'] = ''
-    result['pycharm-community']['restarterHash'] = ''
-    result['pycharm-community']['mvnDeps'] = 'pycharm_maven_artefacts.json'
-    result['pycharm-community']['repositories'] = jar_repositories(pycharmOutPath)
-    result['pycharm-community']['kotlin-jps-plugin'] = {}
-    result['pycharm-community']['kotlin-jps-plugin']['version'], result['pycharm-community']['kotlin-jps-plugin']['hash'] = kotlin_jps_plugin_info(pycharmOutPath)
-    kotlinc_version = requested_kotlinc_version(pycharmOutPath)
-    print(f"* Prefetched PyCharm Community requested Kotlin compiler {kotlinc_version}")
+    if os.path.exists(out):
+        with open(out, 'r') as file:
+            result = load(file)
+    else:
+        result = { 'idea-community': {}, 'pycharm-community': {} }
+
+    if 'idea-community' in ides:
+        result['idea-community'] = {}
+        result['idea-community']['version'] = idea_data['version']
+        result['idea-community']['buildNumber'] = idea_data['build_number']
+        result['idea-community']['buildType'] = 'idea'
+        print('Fetching IDEA info...')
+        result['idea-community']['ideaHash'], ideaOutPath = prefetch_intellij_community('idea', result['idea-community']['buildNumber'])
+        result['idea-community']['androidHash'] = prefetch_android('idea', result['idea-community']['buildNumber'])
+        result['idea-community']['jpsHash'] = '' # TODO
+        result['idea-community']['restarterHash'] = '' # TODO
+        result['idea-community']['mvnDeps'] = 'idea_maven_artefacts.json'
+        result['idea-community']['repositories'] = jar_repositories(ideaOutPath)
+        result['idea-community']['kotlin-jps-plugin'] = {}
+        result['idea-community']['kotlin-jps-plugin']['version'], result['idea-community']['kotlin-jps-plugin']['hash'] = kotlin_jps_plugin_info(ideaOutPath)
+        kotlinc_version = requested_kotlinc_version(ideaOutPath)
+        print(f"* Prefetched IDEA Community requested Kotlin compiler {kotlinc_version}")
+    
+    if 'pycharm-community' in ides:
+        result['pycharm-community'] = {}
+        result['pycharm-community']['version'] = pycharm_data['version']
+        result['pycharm-community']['buildNumber'] = pycharm_data['build_number']
+        result['pycharm-community']['buildType'] = 'pycharm'
+        print('Fetching PyCharm info...')
+        result['pycharm-community']['ideaHash'], pycharmOutPath = prefetch_intellij_community('pycharm', result['pycharm-community']['buildNumber'])
+        result['pycharm-community']['androidHash'] = prefetch_android('pycharm', result['pycharm-community']['buildNumber'])
+        result['pycharm-community']['jpsHash'] = '' # TODO
+        result['pycharm-community']['restarterHash'] = '' # TODO
+        result['pycharm-community']['mvnDeps'] = 'pycharm_maven_artefacts.json'
+        result['pycharm-community']['repositories'] = jar_repositories(pycharmOutPath)
+        result['pycharm-community']['kotlin-jps-plugin'] = {}
+        result['pycharm-community']['kotlin-jps-plugin']['version'], result['pycharm-community']['kotlin-jps-plugin']['hash'] = kotlin_jps_plugin_info(pycharmOutPath)
+        kotlinc_version = requested_kotlinc_version(pycharmOutPath)
+        print(f"* Prefetched PyCharm Community requested Kotlin compiler {kotlinc_version}")
 
     if out == "stdout":
         dump(result, stdout, indent=2)
     else:
-        file = open(out, "w")
-        dump(result, file, indent=2)
-        file.write("\n")
+        with open(out, "w") as file:
+            dump(result, file, indent=2)
+            file.write("\n")
 
 
 if __name__ == '__main__':

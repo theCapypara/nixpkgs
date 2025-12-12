@@ -50,6 +50,7 @@ lib.makeOverridable mkDerivation (
     inherit pname version src;
     passthru.buildNumber = buildNumber;
     passthru.tests = args.passthru.tests;
+    passthru.updateScript = args.passthru.updateScript;
     meta = args.meta // {
       mainProgram = pname;
     };
