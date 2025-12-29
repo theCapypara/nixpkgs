@@ -35,12 +35,12 @@ in
 
   wmClass = "jetbrains-pycharm-ce";
   product = "PyCharm CE";
+  productShort = "PyCharm";
 
   version = "2025.2.5";
   buildNumber = "252.28238.29";
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
-  productShort = "PyCharm";
 
   meta = {
     homepage = "https://www.jetbrains.com/pycharm/";

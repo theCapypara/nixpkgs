@@ -34,6 +34,9 @@ in
   extraWrapperArgs ? [ ],
   extraLdPath ? [ ],
   buildInputs ? [ ],
+  preInstall ? null,
+  postInstall ? null,
+  postFixup ? null,
   passthru ? { },
 }:
 mkJetBrainsProductCore {
@@ -49,6 +52,9 @@ mkJetBrainsProductCore {
     productShort
     libdbm
     fsnotifier
+    preInstall
+    postInstall
+    postFixup
     ;
 
   buildInputs =

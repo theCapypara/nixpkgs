@@ -36,12 +36,12 @@ in
 
   wmClass = "jetbrains-pycharm";
   product = "PyCharm";
+  productShort = "PyCharm";
 
   version = "2025.3.1";
   buildNumber = "253.29346.142";
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
-  productShort = "PyCharm";
 
   buildInputs = [
     musl

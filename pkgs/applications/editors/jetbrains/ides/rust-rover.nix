@@ -59,6 +59,8 @@ in
       xz
     ];
 
+  postFixup = patchSharedLibs;
+
   meta = {
     homepage = "https://www.jetbrains.com/rust/";
     description = "Rust IDE from JetBrains";
@@ -71,10 +73,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postFixup = ''
-      ${attrs.postFixup or ""}
-      ${patchSharedLibs}
-    '';
-  })
+})

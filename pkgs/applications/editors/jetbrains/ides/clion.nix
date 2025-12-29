@@ -64,6 +64,15 @@ in
       xz
     ];
 
+  postInstall = lib.optionalString stdenv.hostPlatform.isLinux ''
+    for dir in $out/clion/plugins/clion-radler/DotFiles/linux-*; do
+      rm -rf $dir/dotnet
+      ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
+    done
+  '';
+
+  postFixup = patchSharedLibs;
+
   meta = {
     homepage = "https://www.jetbrains.com/clion/";
     description = "C/C++ IDE from JetBrains";
@@ -79,19 +88,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postInstall =
-      (attrs.postInstall or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-        for dir in $out/clion/plugins/clion-radler/DotFiles/linux-*; do
-          rm -rf $dir/dotnet
-          ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
-        done
-      '';
-
-    postFixup = ''
-      ${attrs.postFixup or ""}
-      ${patchSharedLibs}
-    '';
-  })
+})

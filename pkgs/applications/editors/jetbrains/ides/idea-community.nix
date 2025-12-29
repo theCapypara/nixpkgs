@@ -36,12 +36,12 @@ mkJetBrainsProduct {
 
   wmClass = "jetbrains-idea-ce";
   product = "IntelliJ IDEA CE";
+  productShort = "IDEA";
 
   version = "2025.2.5";
   buildNumber = "252.28238.7";
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
-  productShort = "IDEA";
 
   extraLdPath = [ zlib ];
   extraWrapperArgs = [

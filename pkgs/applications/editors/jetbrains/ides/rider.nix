@@ -67,12 +67,22 @@ in
     libxml2
     xz
   ];
+
   extraLdPath = lib.optionals (stdenv.hostPlatform.isLinux) [
     # Avalonia dependencies needed for dotMemory
     libICE
     libSM
     libX11
   ];
+
+  postInstall = lib.optionalString stdenv.hostPlatform.isLinux ''
+    ${patchSharedLibs}
+
+    for dir in $out/rider/lib/ReSharperHost/linux-*; do
+      rm -rf $dir/dotnet
+      ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
+    done
+  '';
 
   meta = {
     homepage = "https://www.jetbrains.com/rider/";
@@ -86,16 +96,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postInstall =
-      (attrs.postInstall or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-        ${patchSharedLibs}
-
-        for dir in $out/rider/lib/ReSharperHost/linux-*; do
-          rm -rf $dir/dotnet
-          ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
-        done
-      '';
-  })
+})

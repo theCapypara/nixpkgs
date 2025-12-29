@@ -45,9 +45,16 @@ in
     # fortify source breaks build since delve compiles with -O0
     ''--prefix CGO_CPPFLAGS " " "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"''
   ];
+
   buildInputs = [
     libgcc
   ];
+
+  postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    interp="$(cat $NIX_CC/nix-support/dynamic-linker)"
+    patchelf --set-interpreter $interp $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
+    chmod +x $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
+  '';
 
   meta = {
     homepage = "https://www.jetbrains.com/go/";
@@ -62,13 +69,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postFixup =
-      (attrs.postFixup or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-        interp="$(cat $NIX_CC/nix-support/dynamic-linker)"
-        patchelf --set-interpreter $interp $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
-        chmod +x $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
-      '';
-  })
+})

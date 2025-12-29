@@ -20,6 +20,9 @@
   passthru,
 
   plugins ? [ ],
+  preInstall ? null,
+  postInstall ? null,
+  postFixup ? null,
   ...
 }:
 
@@ -33,6 +36,9 @@ stdenvNoCC.mkDerivation {
     version
     plugins
     passthru
+    preInstall
+    postInstall
+    postFixup
     ;
   meta = meta // {
     mainProgram = loname;

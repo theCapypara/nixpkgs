@@ -35,12 +35,12 @@ mkJetBrainsProduct {
 
   wmClass = "jetbrains-gateway";
   product = "JetBrains Gateway";
+  productShort = "Gateway";
 
   version = "2025.3";
   buildNumber = "253.28294.342";
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
-  productShort = "Gateway";
 
   buildInputs = [
     libgcc

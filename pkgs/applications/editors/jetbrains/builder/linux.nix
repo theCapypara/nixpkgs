@@ -39,6 +39,9 @@
   extraLdPath ? [ ],
   extraWrapperArgs ? [ ],
   buildInputs ? [ ],
+  preInstall ? null,
+  postInstall ? null,
+  postFixup ? null,
   ...
 }@args:
 
@@ -57,6 +60,9 @@ lib.makeOverridable mkDerivation (
       src
       buildInputs
       passthru
+      preInstall
+      postInstall
+      postFixup
       ;
     meta = args.meta // {
       mainProgram = pname;
