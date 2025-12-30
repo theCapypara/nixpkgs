@@ -18,6 +18,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/cpp/CLion-2025.3.1.tar.gz";
@@ -36,6 +37,7 @@ let
       sha256 = "11cae8aeb43d1870d96980f1d927ff545fabed989f3bf4e7327911b441e149f1";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -45,8 +47,10 @@ in
   wmClass = "jetbrains-clion";
   product = "CLion";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.141";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

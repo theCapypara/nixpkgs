@@ -15,6 +15,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/rustrover/RustRover-2025.3.1.tar.gz";
@@ -33,6 +34,7 @@ let
       sha256 = "103a12ed1c37b6b38cff5d637e7dc7b8dcc78f5c576ba38b8f862c6ba3647d52";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -42,8 +44,10 @@ in
   wmClass = "jetbrains-rustrover";
   product = "RustRover";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.139";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

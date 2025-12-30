@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/datagrip/datagrip-2025.3.2.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "a7224548dc9da3863727b0c11cef9d613fd951d16baa016ca1407c56a9ec6964";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-datagrip";
   product = "DataGrip";
 
+  # update-script-start: version
   version = "2025.3.2";
   buildNumber = "253.29346.170";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

@@ -12,6 +12,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/idea/ideaIU-2025.3.1.tar.gz";
@@ -30,6 +31,7 @@ let
       sha256 = "2137863cc3a5f4acd25ba38a82e004e935d3a94fa566f8e3851d6b8a8ac12777";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -40,8 +42,10 @@ mkJetBrainsProduct {
   product = "IntelliJ IDEA";
   productShort = "IDEA";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.138";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

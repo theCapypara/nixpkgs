@@ -11,6 +11,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/python/dataspell-2025.3.1.tar.gz";
@@ -29,6 +30,7 @@ let
       sha256 = "fe0d8ef15e6e36af0ea4361bd474f204ee5c307ef90af8ec833976a1dae5a5a3";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -38,8 +40,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-dataspell";
   product = "DataSpell";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.157";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

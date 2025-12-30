@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/idea/gateway/JetBrainsGateway-2025.3.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "b10cabda93c88d27bcc135a44a1fd98fe60fe8305606d6e75a0d5b736f0df274";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -37,8 +39,10 @@ mkJetBrainsProduct {
   product = "JetBrains Gateway";
   productShort = "Gateway";
 
+  # update-script-start: version
   version = "2025.3";
   buildNumber = "253.28294.342";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

@@ -10,6 +10,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/python/pycharm-2025.3.1.tar.gz";
@@ -28,6 +29,7 @@ let
       sha256 = "ec8e97856f00da902020c72b0f079cc10983de6bb4438292ea5faa1e5b0cb935";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -38,8 +40,10 @@ in
   product = "PyCharm";
   productShort = "PyCharm";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.142";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

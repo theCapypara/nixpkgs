@@ -80,6 +80,8 @@ mkJetBrainsProductCore {
       fsnotifier
       ;
 
+    updateScript = ../updater/main.py;
+
     tests = {
       plugins = callPackage ../plugins/tests.nix { ideName = pname; };
     };

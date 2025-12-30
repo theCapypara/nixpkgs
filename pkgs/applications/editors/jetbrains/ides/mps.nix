@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/mps/2025.3/MPS-2025.3.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "dc79c41ce851448f4862306173914eee1e63e230410ed65356498efd2d5f0444";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-MPS";
   product = "MPS";
 
+  # update-script-start: version
   version = "2025.3";
   buildNumber = "253.28294.432";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

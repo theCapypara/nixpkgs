@@ -10,6 +10,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/idea/ideaIC-2025.2.5.tar.gz";
@@ -28,6 +29,7 @@ let
       sha256 = "52065492d433f0ea9df4debd5f0683154ab4dab5846394cabc8a49903d70e5bc";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -38,8 +40,10 @@ mkJetBrainsProduct {
   product = "IntelliJ IDEA CE";
   productShort = "IDEA";
 
+  # update-script-start: version
   version = "2025.2.5";
   buildNumber = "252.28238.7";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

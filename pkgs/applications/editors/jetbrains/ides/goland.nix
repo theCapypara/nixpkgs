@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/go/goland-2025.3.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "d4ee20b5c3df6151d366d6cc9b06b915499ff0c1eb1184aab53a01078908ec89";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ in
   wmClass = "jetbrains-goland";
   product = "Goland";
 
+  # update-script-start: version
   version = "2025.3";
   buildNumber = "253.28294.337";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/writerside/writerside-243.22562.371.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "9d86ef50b4c6d2a07d236219e9b05c0557241fb017d52ac395719bdb425130f5";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-writerside";
   product = "Writerside";
 
+  # update-script-start: version
   version = "2024.3 EAP";
   buildNumber = "243.22562.371";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

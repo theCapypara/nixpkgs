@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/python/pycharm-community-2025.2.5.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "040a4ed6bb7563972d844c450f615d0d11385e524fbbfdbfc9fc68d78811e994";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -37,8 +39,10 @@ in
   product = "PyCharm CE";
   productShort = "PyCharm";
 
+  # update-script-start: version
   version = "2025.2.5";
   buildNumber = "252.28238.29";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

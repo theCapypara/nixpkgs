@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/webide/PhpStorm-2025.3.1.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "0453e0a6ee86c3cbf97b8c48f2826751d8085bf8211b541a04752621c5af16bc";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-phpstorm";
   product = "PhpStorm";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.151";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

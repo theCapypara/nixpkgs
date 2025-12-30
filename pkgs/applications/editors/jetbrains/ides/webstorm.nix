@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/webstorm/WebStorm-2025.3.1.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "1c21990cee2bbbffdd8f6c90e8071bc03ec7fe5a3662e51931c15222d4b7ccb2";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-webstorm";
   product = "WebStorm";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.143";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

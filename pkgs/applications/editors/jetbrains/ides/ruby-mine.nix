@@ -9,6 +9,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/ruby/RubyMine-2025.3.1.tar.gz";
@@ -27,6 +28,7 @@ let
       sha256 = "67f1aa674b90ec54ba21f3523ad940218f979befd7429e38ad822bc8146d16a4";
     };
   };
+  # update-script-end: urls
 in
 mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -36,8 +38,10 @@ mkJetBrainsProduct {
   wmClass = "jetbrains-rubymine";
   product = "RubyMine";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.140";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 

@@ -21,6 +21,7 @@
 }:
 let
   system = stdenv.hostPlatform.system;
+  # update-script-start: urls
   urls = {
     x86_64-linux = {
       url = "https://download.jetbrains.com/rider/JetBrains.Rider-2025.3.1.tar.gz";
@@ -39,6 +40,7 @@ let
       sha256 = "d7080323412900f5d37270233e5a4c773011c6853d6031ce1f5e635c77511426";
     };
   };
+  # update-script-end: urls
 in
 (mkJetBrainsProduct {
   inherit libdbm fsnotifier;
@@ -48,8 +50,10 @@ in
   wmClass = "jetbrains-rider";
   product = "Rider";
 
+  # update-script-start: version
   version = "2025.3.1";
   buildNumber = "253.29346.144";
+  # update-script-end: version
 
   src = fetchurl (urls.${system} or (throw "Unsupported system: ${system}"));
 
