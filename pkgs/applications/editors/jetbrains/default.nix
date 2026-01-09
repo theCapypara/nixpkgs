@@ -14,6 +14,8 @@
 let
   mkJetBrainsProduct = callPackage ./builder/default.nix { inherit jdk forceWayland vmopts; };
   mkJetBrainsSource = callPackage ./source/build.nix { };
+  mkPyCharmProduct = callPackage ./builder/extras/pycharm-builder.nix { inherit mkJetBrainsProduct; };
+  patchSharedLibsHook = callPackage ./builder/extras/patch-shared-libs-hook.nix { };
 
   mkSrcIde =
     path: extras: callPackage path ({ inherit mkJetBrainsProduct mkJetBrainsSource; } // extras);
@@ -31,48 +33,10 @@ let
       }
       // extras
     );
-
-  # Common build overrides, fixes, etc.
-  # TODO: These should eventually be moved outside of this file
-  pyCharmCommonOverrides = (
-    finalAttrs: previousAttrs:
-    lib.optionalAttrs stdenv.hostPlatform.isLinux {
-      buildInputs =
-        with python3.pkgs;
-        (previousAttrs.buildInputs or [ ])
-        ++ [
-          python3
-          setuptools
-        ];
-      preInstall = ''
-        echo "compiling cython debug speedups"
-        if [[ -d plugins/python-ce ]]; then
-            ${python3.interpreter} plugins/python-ce/helpers/pydev/setup_cython.py build_ext --inplace
-        else
-            ${python3.interpreter} plugins/python/helpers/pydev/setup_cython.py build_ext --inplace
-        fi
-      '';
-      # See https://www.jetbrains.com/help/pycharm/2022.1/cython-speedups.html
-    }
-  );
-  patchSharedLibs = lib.optionalString stdenv.hostPlatform.isLinux ''
-    ls -d \
-      $out/*/bin/*/linux/*/lib/liblldb.so \
-      $out/*/bin/*/linux/*/lib/python3.8/lib-dynload/* \
-      $out/*/plugins/*/bin/*/linux/*/lib/liblldb.so \
-      $out/*/plugins/*/bin/*/linux/*/lib/python3.8/lib-dynload/* |
-    xargs patchelf \
-      --replace-needed libssl.so.10 libssl.so \
-      --replace-needed libssl.so.1.1 libssl.so \
-      --replace-needed libcrypto.so.10 libcrypto.so \
-      --replace-needed libcrypto.so.1.1 libcrypto.so \
-      --replace-needed libcrypt.so.1 libcrypt.so \
-      ${lib.optionalString stdenv.hostPlatform.isAarch "--replace-needed libxml2.so.2 libxml2.so"}
-  '';
 in
 {
   # Sorted alphabetically. Deprecated products and aliases are at the very end.
-  clion = mkBinIde ./ides/clion.nix { inherit patchSharedLibs; };
+  clion = mkBinIde ./ides/clion.nix { inherit patchSharedLibsHook; };
   datagrip = mkBinIde ./ides/datagrip.nix { };
   dataspell = mkBinIde ./ides/dataspell.nix { };
   gateway = mkBinIde ./ides/gateway.nix { };
@@ -81,11 +45,11 @@ in
   idea-oss = _idea-oss;
   mps = mkBinIde ./ides/mps.nix { };
   phpstorm = mkBinIde ./ides/phpstorm.nix { };
-  pycharm = mkBinIde ./ides/pycharm.nix { inherit pyCharmCommonOverrides; };
-  pycharm-oss = mkSrcIde ./ides/pycharm-oss.nix { inherit pyCharmCommonOverrides; };
-  rider = mkBinIde ./ides/rider.nix { inherit patchSharedLibs; };
+  pycharm = mkBinIde ./ides/pycharm.nix { inherit mkPyCharmProduct; };
+  pycharm-oss = mkSrcIde ./ides/pycharm-oss.nix { inherit mkPyCharmProduct; };
+  rider = mkBinIde ./ides/rider.nix { inherit patchSharedLibsHook; };
   ruby-mine = mkBinIde ./ides/ruby-mine.nix { };
-  rust-rover = mkBinIde ./ides/rust-rover.nix { inherit patchSharedLibs; };
+  rust-rover = mkBinIde ./ides/rust-rover.nix { inherit patchSharedLibsHook; };
   webstorm = mkBinIde ./ides/webstorm.nix { };
 
   # Plugins
@@ -129,23 +93,23 @@ in
         if stdenv.hostPlatform.isDarwin then
           pycharm-community-bin
         else
-          (mkSrcIde ./ides/pycharm-oss.nix { inherit pyCharmCommonOverrides; })
+          (mkSrcIde ./ides/pycharm-oss.nix { inherit mkPyCharmProduct; })
       );
 
   pycharm-community-bin =
     lib.warnOnInstantiate
       "pycharm-comminity-bin: PyCharm Community has been discontinued by Jetbrains. This binary build is no longer updated. Switch to 'jetbrains.pycharm-oss' for open source builds (from source) or 'jetbrains.pycharm' for commercial builds (binary, unfree). See: https://blog.jetbrains.com/pycharm/2025/04/pycharm-2025"
-      (mkBinIde ./ides/pycharm-community.nix { inherit pyCharmCommonOverrides; });
+      (mkBinIde ./ides/pycharm-community.nix { inherit mkPyCharmProduct; });
 
   pycharm-community-src =
     lib.warnOnInstantiate
       "jetbrains.idea-community-src: PyCharm Community has been discontinued by Jetbrains. This is now an alias for 'jetbrains.pycharm-oss', the Open Source build of PyCharm. See: https://blog.jetbrains.com/pycharm/2025/04/pycharm-2025"
-      (mkSrcIde ./ides/pycharm-oss.nix { inherit pyCharmCommonOverrides; });
+      (mkSrcIde ./ides/pycharm-oss.nix { inherit mkPyCharmProduct; });
 
   pycharm-professional =
     lib.warnOnInstantiate
       "'jetbrains.pycharm-professional' has been renamed to/replaced by 'jetbrains.pycharm'"
-      (mkBinIde ./ides/pycharm.nix { inherit pyCharmCommonOverrides; });
+      (mkBinIde ./ides/pycharm.nix { inherit mkPyCharmProduct; });
 
   writerside =
     lib.warnOnInstantiate

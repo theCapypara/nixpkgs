@@ -5,7 +5,6 @@
   mkJetBrainsProduct,
   libdbm,
   fsnotifier,
-
 }:
 let
   system = stdenv.hostPlatform.system;

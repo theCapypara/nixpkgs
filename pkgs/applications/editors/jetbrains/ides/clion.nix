@@ -5,7 +5,7 @@
   mkJetBrainsProduct,
   libdbm,
   fsnotifier,
-  patchSharedLibs,
+  patchSharedLibsHook,
   dotnetCorePackages,
   python3,
   openssl,
@@ -68,6 +68,8 @@ in
       xz
     ];
 
+  nativeBuildInputs = [ patchSharedLibsHook ];
+
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
   meta = {
     homepage = "https://www.jetbrains.com/clion/";
@@ -94,9 +96,4 @@ in
           ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
         done
       '';
-
-    postFixup = ''
-      ${attrs.postFixup or ""}
-      ${patchSharedLibs}
-    '';
   })

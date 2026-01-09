@@ -5,7 +5,7 @@
   mkJetBrainsProduct,
   libdbm,
   fsnotifier,
-  patchSharedLibs,
+  patchSharedLibsHook,
   openssl,
   libxcrypt,
   lttng-ust_2_12,
@@ -71,6 +71,9 @@ in
     libxml2
     xz
   ];
+
+  nativeBuildInputs = [ patchSharedLibsHook ];
+
   extraLdPath = lib.optionals (stdenv.hostPlatform.isLinux) [
     # Avalonia dependencies needed for dotMemory
     libICE
@@ -100,7 +103,6 @@ in
     postInstall =
       (attrs.postInstall or "")
       + lib.optionalString stdenv.hostPlatform.isLinux ''
-        ${patchSharedLibs}
 
         for dir in $out/rider/lib/ReSharperHost/linux-*; do
           rm -rf $dir/dotnet

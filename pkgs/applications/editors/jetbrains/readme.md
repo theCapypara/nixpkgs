@@ -57,8 +57,6 @@ Any comments or other manual changes between these markers will be removed when 
 
 ### TODO:
  - drop the community IDEs
- - move PyCharm overrides to a common place outside of `default.nix`
- - package `patchSharedLibs` from `default.nix` as a hook
  - cleanup this TODO list, especially the following points, which have been here since 2023
  - replace `libxcrypt-legacy` with `libxcrypt` when supported
  - make `jetbrains-remote-dev.patch` cleaner

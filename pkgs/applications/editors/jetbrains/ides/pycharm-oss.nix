@@ -1,8 +1,8 @@
 {
   lib,
-  mkJetBrainsProduct,
+  mkPyCharmProduct,
   mkJetBrainsSource,
-  pyCharmCommonOverrides,
+  ...
 }:
 let
   src = mkJetBrainsSource {
@@ -35,7 +35,7 @@ let
     # update-script-end: source-args
   };
 in
-(mkJetBrainsProduct {
+mkPyCharmProduct {
   inherit src;
   inherit (src)
     version
@@ -66,5 +66,4 @@ in
     license = lib.licenses.asl20;
     sourceProvenance = [ lib.sourceTypes.fromSource ];
   };
-}).overrideAttrs
-  pyCharmCommonOverrides
+}

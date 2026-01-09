@@ -5,7 +5,7 @@
   mkJetBrainsProduct,
   libdbm,
   fsnotifier,
-  patchSharedLibs,
+  patchSharedLibsHook,
   python3,
   openssl,
   libxcrypt-legacy,
@@ -36,7 +36,7 @@ let
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
+mkJetBrainsProduct {
   inherit libdbm fsnotifier;
 
   pname = "rust-rover";
@@ -63,6 +63,8 @@ in
       xz
     ];
 
+  nativeBuildInputs = [ patchSharedLibsHook ];
+
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
   meta = {
     homepage = "https://www.jetbrains.com/rust/";
@@ -76,10 +78,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postFixup = ''
-      ${attrs.postFixup or ""}
-      ${patchSharedLibs}
-    '';
-  })
+}

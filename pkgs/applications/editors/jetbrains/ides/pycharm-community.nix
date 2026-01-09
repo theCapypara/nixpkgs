@@ -3,10 +3,10 @@
   stdenv,
   lib,
   fetchurl,
-  mkJetBrainsProduct,
+  mkPyCharmProduct,
   libdbm,
   fsnotifier,
-  pyCharmCommonOverrides,
+  ...
 }:
 let
   system = stdenv.hostPlatform.system;
@@ -31,7 +31,7 @@ let
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
+mkPyCharmProduct {
   inherit libdbm fsnotifier;
 
   pname = "pycharm-community";
@@ -59,5 +59,4 @@ in
     license = lib.licenses.asl20;
     sourceProvenance = [ lib.sourceTypes.fromSource ];
   };
-}).overrideAttrs
-  pyCharmCommonOverrides
+}
