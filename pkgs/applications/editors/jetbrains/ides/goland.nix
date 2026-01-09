@@ -30,7 +30,7 @@ let
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
+mkJetBrainsProduct {
   inherit libdbm fsnotifier;
 
   pname = "goland";
@@ -49,9 +49,16 @@ in
     # fortify source breaks build since delve compiles with -O0
     ''--prefix CGO_CPPFLAGS " " "-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"''
   ];
+
   buildInputs = [
     libgcc
   ];
+
+  postFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    interp="$(cat $NIX_CC/nix-support/dynamic-linker)"
+    patchelf --set-interpreter $interp $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
+    chmod +x $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
+  '';
 
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
   meta = {
@@ -69,13 +76,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postFixup =
-      (attrs.postFixup or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-        interp="$(cat $NIX_CC/nix-support/dynamic-linker)"
-        patchelf --set-interpreter $interp $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
-        chmod +x $out/goland/plugins/go-plugin/lib/dlv/linux/dlv
-      '';
-  })
+}

@@ -42,7 +42,7 @@ let
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
+mkJetBrainsProduct {
   inherit libdbm fsnotifier;
 
   pname = "rider";
@@ -74,6 +74,13 @@ in
 
   nativeBuildInputs = [ patchSharedLibsHook ];
 
+  postInstall = lib.optionalString stdenv.hostPlatform.isLinux ''
+    for dir in $out/rider/lib/ReSharperHost/linux-*; do
+      rm -rf $dir/dotnet
+      ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
+    done
+  '';
+
   extraLdPath = lib.optionals (stdenv.hostPlatform.isLinux) [
     # Avalonia dependencies needed for dotMemory
     libICE
@@ -98,15 +105,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postInstall =
-      (attrs.postInstall or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-
-        for dir in $out/rider/lib/ReSharperHost/linux-*; do
-          rm -rf $dir/dotnet
-          ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
-        done
-      '';
-  })
+}

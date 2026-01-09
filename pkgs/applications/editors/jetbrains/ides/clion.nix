@@ -39,7 +39,7 @@ let
   };
   # update-script-end: urls
 in
-(mkJetBrainsProduct {
+mkJetBrainsProduct {
   inherit libdbm fsnotifier;
 
   pname = "clion";
@@ -70,6 +70,13 @@ in
 
   nativeBuildInputs = [ patchSharedLibsHook ];
 
+  postInstall = lib.optionalString stdenv.hostPlatform.isLinux ''
+    for dir in $out/clion/plugins/clion-radler/DotFiles/linux-*; do
+      rm -rf $dir/dotnet
+      ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
+    done
+  '';
+
   # NOTE: meta attrs are used for the Linux desktop entries and may cause rebuilds when changed
   meta = {
     homepage = "https://www.jetbrains.com/clion/";
@@ -86,14 +93,4 @@ in
       else
         [ lib.sourceTypes.binaryBytecode ];
   };
-}).overrideAttrs
-  (attrs: {
-    postInstall =
-      (attrs.postInstall or "")
-      + lib.optionalString stdenv.hostPlatform.isLinux ''
-        for dir in $out/clion/plugins/clion-radler/DotFiles/linux-*; do
-          rm -rf $dir/dotnet
-          ln -s ${dotnetCorePackages.sdk_10_0-source}/share/dotnet $dir/dotnet
-        done
-      '';
-  })
+}
