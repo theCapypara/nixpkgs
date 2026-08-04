@@ -1288,6 +1288,7 @@ mapAliases {
   libcef = throw "'libcef' has been removed, as no packages depend on it"; # Added 2025-11-06
   libchamplain = throw "'libchamplain' has been removed due to reliance on insecure libsoup 2.4. Consider using 'libchamplain_libsoup3' instead"; # Added 2026-05-29
   libclc = throw "'libclc' has been removed, as no packages use it; reach out to LLVM/Mesa maintainers if you need this back."; # Added 2026-08-06
+  libcryptui = throw "'libcryptui' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   libdbiDrivers = warnAlias "'libdbiDrivers' has been renamed to 'libdbi-drivers'" libdbi-drivers; # Added 2026-02-08
   libdbiDriversBase = warnAlias "'libdbiDriversBase' has been renamed to 'libdbi-drivers-base'" libdbi-drivers-base; # Added 2026-02-08
   libdbusmenu-gtk2 = throw "'libdbusmenu-gtk2' has been removed as it depended on the deprecated GTK 2 engine."; # Added 2026-08-10
