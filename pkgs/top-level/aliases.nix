@@ -1084,6 +1084,7 @@ mapAliases {
   gtk_engines = throw "'gtk_engines' has been removed as it was archived upstream and depends on the deprecated GTK2 engine."; # Added 2026-07-30
   gtkcord4 = throw "'gtkcord4' has been renamed to/replaced by 'dissent'"; # Converted to throw 2025-10-27
   gtkextra = throw "'gtkextra' has been removed due to lack of maintenance upstream."; # Added 2025-06-10
+  gtkglext = throw "'gtkglext' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   gtkgnutella = gtk-gnutella; # Added 2026-05-21
   gtkimageview = throw "'gtkimageview' has been removed, as it depended on GTK 2."; # Added 2026-08-10
   gtkhtml = throw "'gtkhtml' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
