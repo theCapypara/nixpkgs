@@ -1019,6 +1019,7 @@ mapAliases {
   gnome-doc-utils = throw "'gnome-doc-utils' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   gnome-firmware-updater = throw "'gnome-firmware-updater' has been renamed to/replaced by 'gnome-firmware'"; # Converted to throw 2025-10-27
   gnome-icon-theme = throw "'gnome-icon-theme' has been removed because it is unmaintained upstream and depends on GTK 2."; # Added 2026-07-22
+  gnome-nettool = throw "'gnome-nettool' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   gnome-passwordsafe = throw "'gnome-passwordsafe' has been renamed to/replaced by 'gnome-secrets'"; # Converted to throw 2025-10-27
   gnome-recipes = throw "'gnome-recipes' has been removed due to lack of upstream maintenance and dependency on insecure libraries"; # Added 2025-09-06
   gnome-resources = throw "'gnome-resources' has been renamed to/replaced by 'resources'"; # Converted to throw 2025-10-27
