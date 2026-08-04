@@ -1038,6 +1038,7 @@ mapAliases {
   goocanvas_1 = throw "'goocanvas_1' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   goocanvas_2 = throw "'goocanvas_2' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   goocanvas_3 = throw "'goocanvas_3' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
+  goocanvasmm2 = throw "'goocanvasmm2' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   gosmore = throw "'gosmore' has been removed as it was unmaintained and relied on gtk2"; # Added 2026-07-26
   gphotos-sync = throw "'gphotos-sync' has been removed, as it was archived upstream due to API changes that ceased its functions"; # Added 2025-11-06
   gprbuild-boot = throw "'gprbuild-boot' has been renamed to/replaced by 'gnatPackages.gprbuild-boot'"; # Converted to throw 2025-10-27
