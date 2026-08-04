@@ -573,6 +573,7 @@ mapAliases {
   clucene_core_2 = warnAlias "'clucene_core_2' has been renamed to 'clucene-core_2'" clucene-core_2; # Added 2026-01-12
   clutter = throw "'clutter' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   clutter-gst = throw "'clutter-gst' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
+  clutter-gtk = throw "'clutter-gtk' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   cmtk = throw "'cmtk' has been dropped due to being broken since September 2025, with no complaints by any users of the package."; # Added 2026-04-05
   coc-cmake = throw "'coc-cmake' has been removed, as it required pnpm 8 (EOL) and its upstream lockfile is incompatible with newer pnpm"; # Added 2026-06-10
   coc-sumneko-lua = throw "'coc-sumneko-lua' has been removed due to unmaintained and broken package. 'lua_ls' can be used as a replacement"; # Added 2026-02-04
