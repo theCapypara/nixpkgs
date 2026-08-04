@@ -939,6 +939,7 @@ mapAliases {
   gdc11 = throw "gdc11 has been removed from Nixpkgs, as it is unmaintained and obsolete"; # Added 2025-08-08
   gdc = throw "gdc has been removed from Nixpkgs, as recent versions require complex bootstrapping"; # Added 2025-08-08
   gdk-pixbuf-xlib = throw "'gdk-pixbuf-xlib' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
+  gdl = throw "'gdl' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   gdmd = throw "gdmd has been removed from Nixpkgs, as it depends on GDC which was removed"; # Added 2025-08-08
   geda = throw "'geda' has been removed as it is unmaintained upstream."; # Added 2026-07-26
   gencfsm = throw "'gnecfsm' has been removed as it depends on encfs, which depends on the deprecated fuse2"; # Added 2026-05-05
