@@ -11,7 +11,6 @@
   gtk3,
   gnome-keyring,
   polkit,
-  polkit_gnome,
 }:
 
 let
@@ -25,7 +24,6 @@ let
     gtk3
     gnome-keyring
     polkit
-    polkit_gnome
   ];
   meta = {
     description = "Passwordless MFA identities for workforces, customers, and developers";
@@ -103,7 +101,6 @@ buildFHSEnv {
     gtk3
     gnome-keyring
     polkit
-    polkit_gnome
   ];
 
   extraInstallCommands = ''
