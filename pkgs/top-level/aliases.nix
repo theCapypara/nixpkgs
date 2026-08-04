@@ -401,6 +401,7 @@ mapAliases {
   beetsPackages = throw "beetsPackages were replaced with python3.pkgs.beets- prefixed attributes, and top-level beets* attributes"; # Added 2025-10-16
   belcard = throw "'belcard' has been moved to 'linphonePackages.belcard'"; # Added 2025-09-20
   belle-sip = throw "'belle-sip' has been moved to 'linphonePackages.belle-sip'"; # Added 2025-09-20
+  bellepoule = throw "'bellepoule' has been removed as at least one of its dependencies is part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   belr = throw "'belr' has been moved to 'linphonePackages.belr'"; # Added 2025-09-20
   bencode = throw "'bencode' has been removed because it is unmaintained upstream"; # Added 2026-04-09
   bfc = throw "bfc has been removed, as it does not build with supported LLVM versions"; # Added 2025-08-10
