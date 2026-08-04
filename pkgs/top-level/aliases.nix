@@ -1322,6 +1322,7 @@ mapAliases {
   libgnome-games-support_2_0 = throw "'libgnome-games-support_2_0' has been removed. Upstream has converted this library to a copylib and no more releases will happen"; # Added 2026-03-27
   libgnome-keyring = throw "'libgnome-keyring' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   libgnome-keyring3 = throw "'libgnome-keyring3' has been renamed to/replaced by 'libgnome-keyring'"; # Converted to throw 2025-10-27
+  libgnomekbd = throw "'libgnomekbd' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   libheimdal = throw "'libheimdal' has been renamed to/replaced by 'heimdal'"; # Converted to throw 2025-10-27
   libHX = libhx; # Added 2026-02-08
   libICE = libice; # Added 2026-02-04
