@@ -2147,6 +2147,7 @@ mapAliases {
   rep-gtk = throw "'rep-gtk' has been removed because it depended on the deprecated GTK2 engine."; # Added 2026-08-03
   resp-app = throw "'resp-app' has been replaced by 'redisinsight'"; # Added 2025-12-17
   responsively-app = throw "'responsively-app' has been removed due to lack of maintenance upstream."; # Added 2025-06-25
+  retro-gtk = throw "'retro-gtk' has been removed as its part of the GNOME archive and no longer maintained."; # Added 2026-08-04
   retroarchBare = throw "'retroarchBare' has been renamed to/replaced by 'retroarch-bare'"; # Converted to throw 2025-10-27
   retroarchFull = throw "'retroarchFull' has been renamed to/replaced by 'retroarch-full'"; # Converted to throw 2025-10-27
   retroshare06 = throw "'retroshare06' has been renamed to/replaced by 'retroshare'"; # Converted to throw 2025-10-27
