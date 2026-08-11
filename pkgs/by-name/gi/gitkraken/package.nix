@@ -39,7 +39,6 @@
   libxtst,
   libdrm,
   libgbm,
-  libgnome-keyring,
   libuuid,
   libxcb,
   libxkbcommon,
@@ -133,7 +132,6 @@ let
       libxfixes
       libxrender
       gtk3
-      libgnome-keyring
       openssl
       at-spi2-atk
       at-spi2-core

@@ -9,8 +9,6 @@
   gtk3,
   libgee,
   webkitgtk_4_1,
-  clutter-gtk,
-  clutter-gst,
   ninja,
   wrapGAppsHook3,
   testers,
@@ -40,8 +38,6 @@ stdenv.mkDerivation (finalAttrs: {
     gtk3
     libgee
     webkitgtk_4_1
-    clutter-gtk
-    clutter-gst
   ];
 
   postPatch = ''

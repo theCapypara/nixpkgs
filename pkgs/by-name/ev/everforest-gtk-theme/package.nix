@@ -2,7 +2,6 @@
   lib,
   stdenvNoCC,
   fetchFromGitHub,
-  gnome-themes-extra,
   gtk3,
   sassc,
 }:
@@ -25,10 +24,6 @@ stdenvNoCC.mkDerivation {
     # remove when merged
     # https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme/pull/35
     ./gtk3-remove-border-spacing.patch
-  ];
-
-  buildInputs = [
-    gnome-themes-extra
   ];
 
   nativeBuildInputs = [

@@ -12,8 +12,6 @@
   gobject-introspection,
   libmusicbrainz,
   webkitgtk_4_1,
-  clutter-gtk,
-  clutter-gst,
   wrapGAppsHook3,
   nemo,
   xreader,
@@ -47,8 +45,6 @@ stdenv.mkDerivation (finalAttrs: {
     gtksourceview4
     libmusicbrainz
     webkitgtk_4_1
-    clutter-gtk
-    clutter-gst
     nemo
     xreader
   ];

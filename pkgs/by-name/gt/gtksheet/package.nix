@@ -8,7 +8,6 @@
   pkg-config,
   atk,
   cairo,
-  glade,
   gtk3,
   pango,
 }:
@@ -36,7 +35,6 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     atk
     cairo
-    glade
     gtk3
     pango
   ];

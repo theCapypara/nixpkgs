@@ -12,7 +12,6 @@
   gtk3,
   glib,
   libnotify,
-  libgnomekbd,
   libpulseaudio,
   alsa-lib,
   libcanberra-gtk3,
@@ -86,7 +85,6 @@ stdenv.mkDerivation (finalAttrs: {
     modemmanager
     networkmanager
     libnotify
-    libgnomekbd # for org.gnome.libgnomekbd.keyboard schema
     gnome-desktop
     libpulseaudio
     alsa-lib

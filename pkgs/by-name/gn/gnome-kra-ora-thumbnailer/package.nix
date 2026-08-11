@@ -2,7 +2,6 @@
   lib,
   stdenv,
   fetchFromGitLab,
-  gnome-common,
   intltool,
   libarchive,
   gdk-pixbuf,
@@ -28,7 +27,6 @@ stdenv.mkDerivation (finalAttrs: {
     intltool
     autoreconfHook
     pkg-config
-    gnome-common
   ];
 
   buildInputs = [

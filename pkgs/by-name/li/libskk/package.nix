@@ -6,7 +6,6 @@
   gettext,
   pkg-config,
   vala,
-  gnome-common,
   gobject-introspection,
   libgee,
   json-glib,
@@ -34,7 +33,6 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [ libxkbcommon ];
   nativeBuildInputs = [
     vala
-    gnome-common
     gobject-introspection
     libtool
     gettext

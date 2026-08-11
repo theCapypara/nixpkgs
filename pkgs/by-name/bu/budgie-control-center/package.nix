@@ -15,17 +15,16 @@
   gettext,
   glib,
   glib-networking,
-  glibc,
   gnome,
   gst_all_1,
   gnome-desktop,
   gnome-settings-daemon,
+  gnome-tecla,
   gsettings-desktop-schemas,
   gsound,
   gtk3,
   ibus,
   libepoxy,
-  libgnomekbd,
   libgtop,
   libgudev,
   libhandy,
@@ -35,6 +34,7 @@
   libpwquality,
   librsvg,
   libsecret,
+  libwacom,
   libxml2,
   libxslt,
   meson,
@@ -68,14 +68,14 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "budgie-control-center";
-  version = "2.1.2";
+  version = "2.1.2+dev";
 
   src = fetchFromGitHub {
-    owner = "BuddiesOfBudgie";
+    owner = "theCapypara"; # owner = "BuddiesOfBudgie";
     repo = "budgie-control-center";
-    tag = "v${finalAttrs.version}";
+    rev = "a3d61f318de218453e208d5a2faad528bab9532c"; # tag = "v${finalAttrs.version}";
     fetchSubmodules = true;
-    hash = "sha256-y/3qXIn8HI4S7K02ovZGT4ec/KJ93k/U82g4Rw3ZJQA=";
+    hash = "sha256-tpRaXz4W6d/SAbqIG/9BnVPu3ASBESJ49QpzkXM+Hd4=";
   };
 
   patches = [
@@ -83,7 +83,6 @@ stdenv.mkDerivation (finalAttrs: {
       budgie_desktop = budgie-desktop;
       inherit
         cups
-        libgnomekbd
         shadow
         ;
       inherit networkmanagerapplet tzdata;
@@ -111,6 +110,7 @@ stdenv.mkDerivation (finalAttrs: {
     glib
     glib-networking
     gnome-desktop
+    gnome-tecla
     gst_all_1.gstreamer
     gnome-settings-daemon
     gsettings-desktop-schemas
@@ -126,6 +126,7 @@ stdenv.mkDerivation (finalAttrs: {
     libpulseaudio
     libpwquality
     libsecret
+    libwacom
     libxml2
     modemmanager
     networkmanager

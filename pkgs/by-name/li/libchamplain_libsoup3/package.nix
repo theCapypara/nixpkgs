@@ -14,7 +14,6 @@
   cairo,
   sqlite,
   gnome,
-  clutter-gtk,
   libsoup_3,
   gobject-introspection, # , libmemphis
 }:
@@ -56,7 +55,6 @@ stdenv.mkDerivation rec {
     glib
     gtk3
     cairo
-    clutter-gtk
   ];
 
   mesonFlags = [

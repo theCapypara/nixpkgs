@@ -9,7 +9,6 @@
   gtk3,
   nemo,
   dbus-glib,
-  libcryptui,
   gcr,
   libnotify,
   gnupg,
@@ -42,7 +41,6 @@ stdenv.mkDerivation (finalAttrs: {
     nemo
     gpgme
     dbus-glib
-    libcryptui
     gcr
     libnotify
     gnupg

@@ -27,7 +27,6 @@
   meson,
   ninja,
   python3,
-  libdazzle,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -67,7 +66,6 @@ stdenv.mkDerivation (finalAttrs: {
     gspell
     gvfs
     json-glib
-    libdazzle
     libgee
     libgit2-glib
     libhandy

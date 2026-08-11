@@ -6,7 +6,6 @@
   automake,
   libtool,
   pkg-config,
-  gnome-common,
   gtk-doc,
   gtk3,
   gtk3-x11,
@@ -34,7 +33,6 @@ stdenv.mkDerivation (finalAttrs: {
     automake
     libtool
     pkg-config
-    gnome-common
     gtk-doc
     gobject-introspection
   ];

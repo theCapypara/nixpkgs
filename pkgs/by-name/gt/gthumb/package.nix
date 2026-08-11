@@ -23,7 +23,6 @@
   bison,
   brasero,
   flex,
-  clutter-gtk,
   colord,
   wrapGAppsHook3,
   shared-mime-info,
@@ -57,7 +56,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [
     brasero
-    clutter-gtk
     colord
     exiv2
     glib

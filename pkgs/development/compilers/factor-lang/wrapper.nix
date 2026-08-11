@@ -14,7 +14,6 @@
   gdk-pixbuf,
   glib,
   gtk2-x11,
-  gtkglext,
   libGL,
   libGLU,
   librsvg,
@@ -71,7 +70,6 @@ let
       gdk-pixbuf
       glib
       gtk2-x11
-      gtkglext
       libGL
       libGLU
       pango

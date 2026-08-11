@@ -10,7 +10,6 @@
   pkg-config,
   wrapGAppsHook3,
   yelp-tools,
-  clutter-gtk,
   gst_all_1,
   glib,
   gtk3,
@@ -47,7 +46,6 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = [
-    clutter-gtk
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
@@ -74,5 +72,6 @@ stdenv.mkDerivation {
     license = lib.licenses.lgpl21Plus;
     maintainers = [ lib.maintainers.bendlas ];
     platforms = lib.platforms.unix;
+    broken = true;
   };
 }

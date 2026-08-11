@@ -9,7 +9,6 @@
   freetype,
   fribidi,
   gdk-pixbuf,
-  gdk-pixbuf-xlib,
   gettext,
   giflib,
   glib,
@@ -67,7 +66,6 @@ gccStdenv.mkDerivation (finalAttrs: {
     freetype
     fribidi
     gdk-pixbuf
-    gdk-pixbuf-xlib
     gettext
     giflib
     glib

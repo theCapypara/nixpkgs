@@ -24,11 +24,9 @@
   zlibSupport ? true,
   zlib,
   libuniqueSupport ? true,
-  libunique,
   libpngSupport ? true,
   libpng,
   openglSupport ? !stdenv.hostPlatform.isDarwin,
-  gtkglext,
   libGL,
 }:
 
@@ -50,7 +48,6 @@ stdenv.mkDerivation (finalAttrs: {
     fftw
   ]
   ++ lib.optionals openglSupport [
-    gtkglext
     libGL
   ]
   ++ lib.optional openexrSupport openexr
@@ -61,7 +58,6 @@ stdenv.mkDerivation (finalAttrs: {
   ++ lib.optional libxml2Support libxml2
   ++ lib.optional libwebpSupport libwebp
   ++ lib.optional zlibSupport zlib
-  ++ lib.optional libuniqueSupport libunique
   ++ lib.optional libzipSupport libzip;
 
   # This patch corrects problems with python support, but should apply cleanly

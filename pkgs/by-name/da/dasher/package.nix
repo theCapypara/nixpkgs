@@ -9,7 +9,6 @@
   gtk3,
   expat,
   itstool,
-  gnome-doc-utils,
   which,
   at-spi2-core,
   dbus,
@@ -42,8 +41,6 @@ stdenv.mkDerivation {
     autoreconfHook
     wrapGAppsHook3
     pkg-config
-    # doc generation
-    gnome-doc-utils
     which
     libxslt
     libxml2

@@ -12,7 +12,6 @@
   gsettings-desktop-schemas,
   gtk3,
   enableGlade ? false,
-  glade,
   xvfb-run,
   gdk-pixbuf,
   librsvg,
@@ -33,9 +32,6 @@ stdenv.mkDerivation (finalAttrs: {
     "out"
     "dev"
     "devdoc"
-  ]
-  ++ lib.optionals enableGlade [
-    "glade"
   ];
   outputBin = "dev";
 
@@ -63,9 +59,6 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     gdk-pixbuf
     gtk3
-  ]
-  ++ lib.optionals enableGlade [
-    glade
   ];
 
   checkInputs = [

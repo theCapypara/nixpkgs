@@ -17,7 +17,6 @@
   libxpm,
   cairo,
   gdk-pixbuf,
-  gdk-pixbuf-xlib,
   menu-cache,
   lxmenu-data,
   wirelesstools,
@@ -58,7 +57,6 @@ stdenv.mkDerivation (finalAttrs: {
     libxpm
     cairo
     gdk-pixbuf
-    gdk-pixbuf-xlib.dev
     menu-cache
     lxmenu-data
     m4

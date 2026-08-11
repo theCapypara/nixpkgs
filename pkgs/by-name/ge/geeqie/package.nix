@@ -12,7 +12,6 @@
   lcms2,
   exiv2,
   libchamplain_libsoup3,
-  clutter-gtk,
   ffmpegthumbnailer,
   fbida,
   libarchive,
@@ -70,7 +69,6 @@ stdenv.mkDerivation (finalAttrs: {
     lcms2
     exiv2
     libchamplain_libsoup3
-    clutter-gtk
     ffmpegthumbnailer
     fbida
     libarchive

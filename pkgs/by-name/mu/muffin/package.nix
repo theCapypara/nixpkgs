@@ -16,7 +16,6 @@
   libcanberra,
   libdrm,
   libgbm,
-  libgnomekbd,
   libgudev,
   libinput,
   libstartup_notification,
@@ -86,7 +85,6 @@ stdenv.mkDerivation (finalAttrs: {
     libcanberra
     libdrm
     libgbm
-    libgnomekbd
     libgudev
     libinput
     libstartup_notification

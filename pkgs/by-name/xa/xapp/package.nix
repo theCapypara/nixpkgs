@@ -3,7 +3,6 @@
   glib,
   gobject-introspection,
   gtk3,
-  libgnomekbd,
   gdk-pixbuf,
   cairo,
   libxkbfile,
@@ -59,7 +58,6 @@ stdenv.mkDerivation (finalAttrs: {
         setproctitle # mate applet
       ]
     ))
-    libgnomekbd
     gdk-pixbuf
     libxkbfile
     python3.pkgs.pygobject3 # for .pc file
@@ -73,6 +71,26 @@ stdenv.mkDerivation (finalAttrs: {
     gtk3
     cairo
     glib
+  ];
+
+  patches = [
+    (builtins.toFile "remove-kbd.patch" ''
+      --- a/libxapp/meson.build
+      +++ b/libxapp/meson.build
+      @@ -111,12 +111,6 @@
+       
+       xapp_sources += switcheroo_sources
+       
+      -if not app_lib_only
+      -    libdeps += dependency('libgnomekbdui', required: true)
+      -    xapp_headers += 'xapp-kbd-layout-controller.h'
+      -    xapp_sources += 'xapp-kbd-layout-controller.c'
+      -endif
+      -
+       xapp_statusicon_interface_sources = gnome.gdbus_codegen(
+         'xapp-statusicon-interface',
+         sources: 'org.x.StatusIcon.xml',
+    '')
   ];
 
   mesonFlags = [

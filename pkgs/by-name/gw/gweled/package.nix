@@ -7,8 +7,6 @@
   pkg-config,
   wrapGAppsHook3,
   desktop-file-utils,
-  clutter,
-  clutter-gtk,
   gsound,
   libgnome-games-support,
 }:
@@ -32,8 +30,6 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    clutter
-    clutter-gtk
     gsound
     libgnome-games-support
   ];

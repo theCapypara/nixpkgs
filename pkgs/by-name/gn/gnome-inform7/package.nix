@@ -24,7 +24,6 @@
   gtksourceview3,
   gspell,
   libxml2,
-  goocanvas_2,
   libplist,
   glib,
   gst_all_1,
@@ -126,7 +125,6 @@ stdenv.mkDerivation {
     gspell
     # webkitgtk_4_0
     libxml2
-    goocanvas_2
     libplist
     ratify
     chimara

@@ -19,7 +19,6 @@
   isocodes,
   libappindicator,
   libcanberra-gtk3,
-  mousetweaks,
   udev,
   libxkbcommon,
   pkg-config,
@@ -49,7 +48,6 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
   };
 
   patches = [
-    (replaceVars ./fix-paths.patch { inherit mousetweaks; })
     # Allow loading hunspell dictionaries installed in NixOS system path
     ./hunspell-use-xdg-datadirs.patch
 
@@ -91,7 +89,6 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
     libappindicator
     libcanberra-gtk3
     libxkbcommon
-    mousetweaks
     udev
     libxtst
     libxkbfile

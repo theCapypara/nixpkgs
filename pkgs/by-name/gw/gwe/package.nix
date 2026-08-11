@@ -11,7 +11,6 @@
   desktop-file-utils,
   python3,
   gtk3,
-  libdazzle,
   libappindicator,
   libnotify,
   linuxPackages,
@@ -69,7 +68,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [
     gtk3
-    libdazzle
     libappindicator
     libnotify
   ];

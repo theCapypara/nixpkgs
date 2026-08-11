@@ -12,7 +12,6 @@
   gtk3,
   pixman,
   libcanberra,
-  libgnomekbd,
   libx11,
   libxext,
   linkFarm,
@@ -47,7 +46,6 @@ stdenv.mkDerivation (finalAttrs: {
     gtk3
     pixman
     libcanberra
-    libgnomekbd # needed by XApp.KbdLayoutController
     libx11
     libxext
   ];

@@ -9,7 +9,6 @@
   libtool,
   dbus-glib,
   makeWrapper,
-  gnome-common,
   gsettings-desktop-schemas,
 }:
 
@@ -35,7 +34,6 @@ stdenv.mkDerivation (finalAttrs: {
     libnotify
     dbus-glib
     gsettings-desktop-schemas
-    gnome-common
   ];
 
   env = {

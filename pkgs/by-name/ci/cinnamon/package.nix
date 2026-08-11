@@ -14,7 +14,6 @@
   gcr,
   gdk-pixbuf,
   gettext,
-  libgnomekbd,
   glib,
   gobject-introspection,
   gsound,
@@ -122,7 +121,6 @@ stdenv.mkDerivation (finalAttrs: {
     polkit
     pythonEnv
     libxml2
-    libgnomekbd
     gst_all_1.gstreamer
 
     # bindings

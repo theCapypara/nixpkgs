@@ -6,7 +6,6 @@
   automake,
   libtool,
   pkg-config,
-  gnome-common,
   gtk-doc,
   gtk2,
   lua5_1,
@@ -35,7 +34,6 @@ stdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [
     libtool
-    gnome-common
     gtk-doc
     gtk2
     lua

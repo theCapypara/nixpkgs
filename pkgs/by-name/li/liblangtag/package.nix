@@ -10,7 +10,6 @@
   glib,
   libxml2,
   gobject-introspection,
-  gnome-common,
   unzip,
 }:
 
@@ -53,7 +52,6 @@ stdenv.mkDerivation rec {
     gettext
     glib
     libxml2
-    gnome-common
   ];
   nativeBuildInputs = [
     autoreconfHook

@@ -10,7 +10,6 @@
   pkg-config,
   adwaita-icon-theme,
   libchamplain_libsoup3,
-  gdl,
   wrapGAppsHook3,
 }:
 
@@ -42,7 +41,6 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = [
-    gdl
     libchamplain_libsoup3
     adwaita-icon-theme
     libxml2

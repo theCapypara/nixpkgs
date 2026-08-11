@@ -1,7 +1,6 @@
 {
   stdenv,
   fetchurl,
-  glade,
   gnunet,
   gnutls,
   gtk3,
@@ -30,7 +29,6 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   buildInputs = [
-    glade
     gnunet
     gnutls
     gtk3
