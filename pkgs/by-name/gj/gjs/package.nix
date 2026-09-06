@@ -119,6 +119,8 @@ stdenv.mkDerivation (finalAttrs: {
   postPatch = ''
     patchShebangs build/choose-tests-locale.sh
     substituteInPlace installed-tests/debugger-test.sh --subst-var-by gjsConsole $out/bin/gjs-console
+    # TODO: I haven't contributed this upstream yet, as GitLab was down.
+    substituteInPlace test/meson.build --replace-fail "include_directories: top_include, dependencies: libgjs_dep," "include_directories: top_include, dependencies: [libgjs_dep, sysprof_capture],"
   ''
   + lib.optionalString stdenv.hostPlatform.isMusl ''
     substituteInPlace installed-tests/js/meson.build \
